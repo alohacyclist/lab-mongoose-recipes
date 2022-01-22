@@ -35,12 +35,18 @@ mongoose
     .then(() => {
       Recipe.deleteOne({ title: /carrot cake/i})
       .then((recipe) => console.log(`${recipe.deletedCount} Deleted successfully.`))
+      .then(() => {
+        mongoose.connection.close();
+      })
+      .catch((error => console.log('Error disconnecting.'), error))
     })
     .catch((error) => {console.error('Error deleting.'), error})
+    
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
   })
+  
   
   
 
