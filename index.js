@@ -27,17 +27,20 @@ mongoose
     .catch(error => {
       console.error('Error getting your Recipes', error)
     })
+    .then(() => {
+      Recipe.findOneAndUpdate({title: 'Rigatoni alla Genovese'}, {duration: 100}, {new: true})
+      .then((recipe) => {console.log(`Recipe updated with ${recipe.duration}`)})
+      .catch((error) => {console.error('Error updating'), error})
+    })
+    .then(() => {
+      Recipe.deleteOne({ title: /carrot cake/i})
+      .then((recipe) => console.log(`${recipe.deletedCount} Deleted successfully.`))
+    })
+    .catch((error) => {console.error('Error deleting.'), error})
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
   })
-  .then(() => {
-    Recipe.findOneAndUpdate({title: 'Rigatoni alla Genovese'}, {duration: 100}, {new: true})
-    
-  })
-  .then(() => {
-    Recipe.deleteOne({ title: /carrot cake/i})
-    .then((recipe) => console.log(`${recipe.deletedCount} Deleted successfully.`))
-  })
-  .catch((error) => {console.error('Error deleting.')})
+  
+  
 
